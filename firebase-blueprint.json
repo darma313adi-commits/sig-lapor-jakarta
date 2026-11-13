@@ -1,0 +1,47 @@
+{
+  "entities": {
+    "CivicReport": {
+      "title": "CivicReport",
+      "description": "Laporan pengaduan kejadian masyarakat wilayah Jakarta dan sekitarnya",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "category": {
+          "type": "string",
+          "enum": ["jalan_rusak", "pohon_tumbang", "banjir", "tawuran", "pesta_narkoba", "lainnya"]
+        },
+        "description": { "type": "string" },
+        "reporterName": { "type": "string" },
+        "reporterContact": { "type": "string" },
+        "lat": { "type": "number" },
+        "lng": { "type": "number" },
+        "address": { "type": "string" },
+        "district": { "type": "string" },
+        "region": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "status": {
+          "type": "string",
+          "enum": ["menunggu", "diteruskan", "diproses", "selesai", "ditolak"]
+        },
+        "urgency": {
+          "type": "string",
+          "enum": ["tinggi", "sedang", "rendah"]
+        },
+        "assignedAgency": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "officerUpdates": {
+          "type": "array"
+        },
+        "upvotes": { "type": "number" }
+      },
+      "required": ["title", "category", "description", "lat", "lng", "address", "status", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/reports/{reportId}": {
+      "schema": "CivicReport",
+      "description": "Koleksi publik aduan masyarakat dan status tindak lanjut instansi terkait"
+    }
+  }
+}

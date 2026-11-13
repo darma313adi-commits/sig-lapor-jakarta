@@ -1,0 +1,26 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Reports collection: public read, public report submission, officer updates
+    match /reports/{reportId} {
+      allow read: if true;
+      allow create: if isValidId(reportId)
+                    && request.resource.data.category in ['jalan_rusak', 'pohon_tumbang', 'banjir', 'tawuran', 'pesta_narkoba', 'lainnya']
+                    && request.resource.data.title is string && request.resource.data.title.size() <= 300
+                    && request.resource.data.description is string && request.resource.data.description.size() <= 2000
+                    && request.resource.data.lat is number
+                    && request.resource.data.lng is number;
+      allow update: if isValidId(reportId);
+      allow delete: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
