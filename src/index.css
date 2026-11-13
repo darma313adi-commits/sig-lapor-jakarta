@@ -1,0 +1,119 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+}
+
+/* CRITICAL FIX FOR LEAFLET + TAILWIND CSS:
+   Tailwind's preflight forces img { max-width: 100%; height: auto; }
+   which collapses and breaks all Leaflet map tiles. We must reset it. */
+.leaflet-pane img,
+.leaflet-tile,
+.leaflet-marker-icon,
+.leaflet-marker-shadow,
+.leaflet-tile-container img,
+.leaflet-image-layer {
+  max-width: none !important;
+  max-height: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+.leaflet-tile {
+  visibility: inherit !important;
+}
+
+/* Custom Leaflet Map styling for modern dark/light UI */
+.leaflet-container {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  z-index: 10;
+  background: #0f172a !important;
+}
+
+/* Custom modern popup styling */
+.leaflet-popup-content-wrapper {
+  background: rgba(15, 23, 42, 0.95) !important;
+  color: #f1f5f9 !important;
+  border-radius: 14px !important;
+  padding: 0 !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5) !important;
+  backdrop-filter: blur(12px) !important;
+  overflow: hidden !important;
+}
+
+.leaflet-popup-content {
+  margin: 0 !important;
+  line-height: 1.4 !important;
+  max-width: 320px !important;
+}
+
+.leaflet-popup-tip {
+  background: rgba(15, 23, 42, 0.95) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+.leaflet-popup-close-button {
+  color: #94a3b8 !important;
+  top: 10px !important;
+  right: 10px !important;
+  font-size: 16px !important;
+  width: 26px !important;
+  height: 26px !important;
+  background: rgba(0, 0, 0, 0.4) !important;
+  border-radius: 9999px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.2s ease !important;
+}
+
+.leaflet-popup-close-button:hover {
+  color: #ffffff !important;
+  background: rgba(239, 68, 68, 0.8) !important;
+}
+
+/* Custom zoom and control button styling */
+.leaflet-bar {
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 10px !important;
+  overflow: hidden !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3) !important;
+}
+
+.leaflet-bar a {
+  background-color: #1e293b !important;
+  color: #e2e8f0 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  transition: background-color 0.15s ease !important;
+}
+
+.leaflet-bar a:hover {
+  background-color: #334155 !important;
+  color: #ffffff !important;
+}
+
+/* Custom pulse effect on user location */
+@keyframes user-ping {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+}
+
+.gps-ping {
+  animation: user-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
